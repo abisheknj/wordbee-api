@@ -19,10 +19,17 @@ function get_token(){
       error_log('received token' . $token);
       return $token;
 }
-function get_text_edit($project_id) {
+function get_text_edit($project_id , $source_language, $target_language, $date_filter) {
     error_log('1st function starts');
+    error_log($source_language);
+    error_log($target_language);
+    error_log($date_filter['dateFrom']);
+    error_log($date_filter['dateTo']);
+
+    
+    
     $token = get_token();
-    $filetoken = make_api_call($token , $project_id);
+    $filetoken = make_api_call($token , $project_id , $date_filter);
 
     if ($filetoken) {
         // Log the API response
@@ -46,16 +53,20 @@ function get_text_edit($project_id) {
 }
 
 // Function to make the API call
-function make_api_call($token , $project_id) {
+function make_api_call($token , $project_id , $date_filter) {
     error_log('2 func starts');
     
+    $date_from = $date_filter['dateFrom'];
+    $date_to = $date_filter['dateTo'];
 
     if ($token) {
         // API endpoint URL and data
         $url = 'https://td.eu.wordbee-translator.com/api/resources/segments/textedits';
         $data = array(
             'scope' => array('type' => 'Project', 'projectid' => $project_id),
-            'groupby' => 'ByUserAndLocale'
+            'groupby' => 'ByUserAndLocale',
+            'dateFrom' => $date_from,
+            'dateTo' => $date_to
         );
 
         // Make the API call with token in header using wp_remote_post()

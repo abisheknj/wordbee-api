@@ -14,23 +14,69 @@ add_shortcode('display_text_edits', 'display_text_edits_shortcode');
 function display_text_edits_shortcode() {
     $output = ''; // Initialize output variable
 
-    // Form HTML
-    $output .= '<form method="post">';
-    $output .= '<label for="project_id">Enter Project ID:</label><br>';
-    $output .= '<input type="text" id="project_id" name="project_id"><br>';
-    $output .= '<input type="submit" value="Submit">';
-    $output .= '</form>';
+// Modify the form HTML to include date filter inputs
+$output .= '<form method="post" style="display: flex; flex-direction: row; justify-content: center; margin-top: 20px;">';
+$output .= '<div style="margin-right: 20px;">';
+$output .= '<label for="project_id">Enter Project ID:</label><br>';
+$output .= '<input type="text" id="project_id" name="project_id" style="margin-top: 5px;"><br>';
+$output .= '</div>';
 
-    // Check if form is submitted
-    if (isset($_POST['project_id'])) {
-        $project_id = sanitize_text_field($_POST['project_id']); // Sanitize input
+$output .= '<div style="margin-right: 20px;">';
+$output .= '<label for="source_language">Source Language:</label><br>';
+$output .= '<select id="source_language" name="source_language" style="margin-top: 5px;">';
+// Add options dynamically based on available languages
+$output .= '<option value="en">English</option>';
+$output .= '<option value="fr">French</option>';
+// Add more options as needed
+$output .= '</select><br>';
+$output .= '</div>';
 
-        // Fetch the data based on the project ID
-        $data = get_text_edit($project_id); // Assuming get_text_edit() retrieves the data
+$output .= '<div style="margin-right: 20px;">';
+$output .= '<label for="target_language">Target Language:</label><br>';
+$output .= '<select id="target_language" name="target_language" style="margin-top: 5px;">';
+// Add options dynamically based on available languages
+$output .= '<option value="es">Spanish</option>';
+$output .= '<option value="de">German</option>';
+// Add more options as needed
+$output .= '</select><br>';
+$output .= '</div>';
+
+$output .= '<div style="margin-right: 20px;">';
+$output .= '<label for="date_from">Date From:</label><br>';
+$output .= '<input type="date" id="date_from" name="date_from" style="margin-top: 5px;"><br>';
+$output .= '</div>';
+
+$output .= '<div>';
+$output .= '<label for="date_to">Date To:</label><br>';
+$output .= '<input type="date" id="date_to" name="date_to" style="margin-top: 5px;"><br>';
+$output .= '</div>';
+
+$output .= '<input type="submit" value="Apply" style="margin-top: 10px;">';
+$output .= '</form>';
+
+
+// Handle form submission and retrieve selected values
+if (isset($_POST['project_id'])) {
+    $project_id = sanitize_text_field($_POST['project_id']); // Sanitize input
+    $source_language = sanitize_text_field($_POST['source_language']); // Sanitize input
+    $target_language = sanitize_text_field($_POST['target_language']); // Sanitize input
+    $date_from = sanitize_text_field($_POST['date_from']); // Sanitize input
+    $date_to = sanitize_text_field($_POST['date_to']); // Sanitize input
+
+    // Construct the date filter parameters
+    $date_filter = array(
+        'dateFrom' => $date_from,
+        'dateTo' => $date_to
+    );
+
+    // Fetch the data based on the project ID, languages, and date filter
+    $data = get_text_edit($project_id, $source_language, $target_language, $date_filter);
+
+     
 
         // Check if data is retrieved
         if ($data !== false) {
-            error_log('Data received: ' . $data);
+            
 
             // Decode the JSON string into an array
             $decoded_data = json_decode($data, true);
