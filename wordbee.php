@@ -17,7 +17,7 @@ function display_text_edits_shortcode() {
 // Modify the form HTML to include date filter inputs
 $output .= '<form method="post" style="display: flex; flex-direction: row; justify-content: center; margin-top: 20px;">';
 $output .= '<div style="margin-right: 20px;">';
-$output .= '<label for="project_id">Enter Project ID:</label><br>';
+$output .= '<label for="project_id">Enter Client name</label><br>';
 $output .= '<input type="text" id="project_id" name="project_id" style="margin-top: 5px;"><br>';
 $output .= '</div>';
 
@@ -81,48 +81,49 @@ if (isset($_POST['project_id'])) {
             // Decode the JSON string into an array
             $decoded_data = json_decode($data, true);
 
-            // Check if decoding was successful
-            if ($decoded_data !== null) {
-                if (isset($decoded_data['counts']) && !empty($decoded_data['counts'])) {
+            // // Check if decoding was successful
+            // if ($decoded_data !== null) {
+            //     if (isset($decoded_data['counts']) && !empty($decoded_data['counts'])) {
 
-                    $output .= '<h2>Displaying data for Project ID: ' . $project_id . '</h2>';
+                    // $output .= '<h2>Displaying data for Project ID: ' . $project_id . '</h2>';
                     // Generate the HTML table with Bootstrap classes
                     $output .= '<div class="table-responsive">';
                     $output .= '<table class="table table-striped">';
                     $output .= '<thead>';
                     $output .= '<tr>';
-                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Uid</th>';
-                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Texts</th>';
-                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Edits</th>';
-                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Words</th>';
-                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Chars</th>';
-                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Edit Distance</th>';
+                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Id</th>';
                     $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Source</th>';
                     $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Target</th>';
+                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Project Word Count</th>';
+                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Project Character Count</th>';
+                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Number of Words post-edited</th>';
+                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Number of characters postedited</th>';
+                    $output .= '<th style="background-color: #007bff !important; color: #fff !important;">Edit Distance Percentage</th>';
+                    
                     $output .= '</tr>';
                     $output .= '</thead>';
                     $output .= '<tbody>';
                     foreach ($decoded_data['counts'] as $item) {
                         $output .= '<tr>';
-                        $output .= '<td>' . $item['uid'] . '</td>';
-                        $output .= '<td>' . $item['texts'] . '</td>';
-                        $output .= '<td>' . $item['edits'] . '</td>';
-                        $output .= '<td>' . $item['words'] . '</td>';
-                        $output .= '<td>' . $item['chars'] . '</td>';
-                        $output .= '<td>' . $item['editDistanceSum'] . '</td>';
-                        $output .= '<td>' . $decoded_data['locales'][$item['src']] . '</td>';
-                        $output .= '<td>' . $decoded_data['locales'][$item['trg']] . '</td>';
+                        // $output .= '<td>' . $item['uid'] . '</td>';
+                        // $output .= '<td>' . $item['texts'] . '</td>';
+                        // $output .= '<td>' . $item['edits'] . '</td>';
+                        // $output .= '<td>' . $item['words'] . '</td>';
+                        // $output .= '<td>' . $item['chars'] . '</td>';
+                        // $output .= '<td>' . $item['editDistanceSum'] . '</td>';
+                        // $output .= '<td>' . $decoded_data['locales'][$item['src']] . '</td>';
+                        // $output .= '<td>' . $decoded_data['locales'][$item['trg']] . '</td>';
                         $output .= '</tr>';
                     }
                     $output .= '</tbody>';
                     $output .= '</table>';
                     $output .= '</div>';
-                } else {
-                    $output .= 'No valid data available.';
-                }
-            } else {
-                $output .= 'Failed to decode JSON data.';
-            }
+            //     } else {
+            //         $output .= 'No valid data available.';
+            //     }
+            // } else {
+            //     $output .= 'Failed to decode JSON data.';
+            // }
         } else {
             $output .= 'Failed to retrieve data.';
         }

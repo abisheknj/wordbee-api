@@ -63,7 +63,10 @@ function project_list_shortcode() {
     $project_list = get_project_list();
 
     // Start building table HTML
-    $output = '<form method="post" style="display: flex; flex-direction: row; justify-content: center; margin-top: 20px;">';
+    $output = '';
+  
+    
+    $output .= '<form method="post" style="display: flex; flex-direction: row; justify-content: center; margin-top: 20px;">';
     $output .= '<div style="margin-right: 20px;">';
     $output .= '<label for="project_id">Search Project:</label><br>';
     $output .= '<input type="text"  name="project_name" style="margin-top: 5px;"><br>';
@@ -78,33 +81,44 @@ function project_list_shortcode() {
     $output .= '<label for="date_to">Date To:</label><br>';
     $output .= '<input type="date" id="date_to" name="date_to" style="margin-top: 5px;"><br>';
     $output .= '</div>';
+
+    $output .= '<div style="margin-right: 20px;">';
+    $output .= '<label for="source_language">Source Language:</label><br>';
+    $output .= '<select id="source_language" name="source_language" style="margin-top: 5px;">';
+// Add options dynamically based on available languages
+    $output .= '<option value="en">English</option>';
+    $output .= '<option value="fr">French</option>';
+// Add more options as needed
+    $output .= '</select><br>';
+    $output .= '</div>';
     
     $output .= '<input type="submit" value="Apply" style="margin-top: 10px;">';
     $output .= '</form>';
-
+    $output .= '<h3>Total Edit Distance : </h3>';
     $output .= '<table border="1">';
     $output .= '<tr>';
-    $output .= '<th>Project ID (id)</th>';
-    $output .= '<th>Reference  (reference)</th>';
-    $output .= '<th>Client (client)</th>';
-    $output .= '<th>Status (statust)</th>';
-    $output .= '<th>Source Language (srct)</th>';
-    $output .= '<th>Date Received (dtreceived)</th>';
-    $output .= '<th>Manager Name  (managernm)</th>';
-    $output .= '<th>Actions</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Project ID (id)</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Reference  (reference)</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Client (client)</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Status (statust)</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Source Language (srct)</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Date Received (dtreceived)</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Manager Name  (managernm)</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Edit distance</th>';
+    $output .= '<th  style="background-color: #007bff !important; color: #fff !important;">Actions</th>';
     $output .= '</tr>';
 
     if ($project_list) {
         foreach ($project_list as $project) {
             $output .= '<tr>';
-            $output .= '<td>' . $project['id'] . '</td>';
-            $output .= '<td>' . $project['reference'] . '</td>';
-            $output .= '<td>' . $project['client'] . '</td>';
-            $output .= '<td>' . $project['statust'] . '</td>';
-            $output .= '<td>' . $project['srct'] . '</td>';
-            $output .= '<td>' . date('Y-m-d H:i:s', strtotime($project['dtreceived'])) . '</td>';
-            $output .= '<td>' . $project['managernm'] . '</td>';
-            $output .= '<td><a href="' . admin_url('admin-post.php?action=view_report&project_id=' . $project['id']) . '">View Report</a></td>'; // Link to trigger the function via admin-post.php
+            // $output .= '<td>' . $project['id'] . '</td>';
+            // $output .= '<td>' . $project['reference'] . '</td>';
+            // $output .= '<td>' . $project['client'] . '</td>';
+            // $output .= '<td>' . $project['statust'] . '</td>';
+            // $output .= '<td>' . $project['srct'] . '</td>';
+            // $output .= '<td>' . date('Y-m-d H:i:s', strtotime($project['dtreceived'])) . '</td>';
+            // $output .= '<td>' . $project['managernm'] . '</td>';
+            // $output .= '<td><a href="' . admin_url('admin-post.php?action=view_report&project_id=' . $project['id']) . '">View Report</a></td>'; // Link to trigger the function via admin-post.php
             $output .= '</tr>';
         }
     } else {
