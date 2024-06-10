@@ -1,0 +1,41 @@
+/* Pagination button container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Pagination button styles */
+.pagination-button {
+    background-color: #007bff; /* Blue background */
+    color: #fff; /* White text */
+    border: none; /* No border */
+    padding: 8px 16px; /* Padding */
+    margin: 0 5px; /* Margin between buttons */
+    cursor: pointer; /* Cursor style */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    display: flex; /* Flex container for icon */
+    align-items: center; /* Align icon and text vertically */
+}
+
+/* Icon styles */
+.pagination-button i {
+    margin-right: 5px; /* Spacing between icon and text */
+}
+
+/* Hover effect */
+.pagination-button:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+/* Disabled button styles */
+.pagination-button:disabled {
+    background-color: #ccc; /* Gray background */
+    cursor: not-allowed; /* Disable cursor */
+}
+
+/* Disabled button hover effect */
+.pagination-button:disabled:hover {
+    background-color: #ccc; /* Gray background */
+}
