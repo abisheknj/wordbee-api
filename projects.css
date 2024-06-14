@@ -39,3 +39,31 @@
 .pagination-button:disabled:hover {
     background-color: #ccc; /* Gray background */
 }
+
+
+.card {
+    width: 300px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+

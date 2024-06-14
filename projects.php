@@ -127,7 +127,7 @@ function project_list_shortcode() {
     // Start building form HTML
     $output .= '<form id="projectForm" method="post" style="display: flex; flex-direction: row; justify-content: center; margin-top: 20px;">';
     $output .= '<div style="margin-right: 20px;">';
-    $output .= '<label for="client_name">Search Project:</label><br>';
+    $output .= '<label for="client_name">Enter Client Name:</label><br>';
     $output .= '<input type="text" name="client_name" style="margin-top: 5px;" value="' . (isset($_POST['client_name']) ? esc_attr($client_name) : '') . '"><br>';
     $output .= '</div>';
 
@@ -180,7 +180,8 @@ function project_list_shortcode() {
             $output .= '<td>' . esc_html($project['srct']) . '</td>';
             $output .= '<td>' . esc_html(date('Y-m-d H:i:s', strtotime($project['dtreceived']))) . '</td>';
             $output .= '<td>' . esc_html($project['managernm']) . '</td>';
-            $output .= '<td><a href="' . esc_url(admin_url('admin-post.php?action=view_report&project_id=' . $project['id'])) . '">View Report</a></td>';
+            $output .= '<td><a href="' . esc_url(home_url('index.php/text-edits/?reference_name=' . urlencode($project['reference']) . '&project_id=' . $project['id'])) . '">View Report</a></td>';
+
             $output .= '</tr>';
         }
     

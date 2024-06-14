@@ -19,10 +19,8 @@ function get_token(){
       error_log('received token' . $token);
       return $token;
 }
-function get_text_edit($project_id , $source_language, $target_language, $date_filter) {
+function get_text_edit($project_id ,  $date_filter) {
     error_log('1st function starts');
-    error_log($source_language);
-    error_log($target_language);
     error_log($date_filter['dateFrom']);
     error_log($date_filter['dateTo']);
 
@@ -64,7 +62,6 @@ function make_api_call($token , $project_id , $date_filter) {
         $url = 'https://td.eu.wordbee-translator.com/api/resources/segments/textedits';
         $data = array(
             'scope' => array('type' => 'Project', 'projectid' => $project_id),
-            'groupby' => 'ByUserAndLocale',
             'dateFrom' => $date_from,
             'dateTo' => $date_to
         );
@@ -113,7 +110,7 @@ function poll_operation_completion($request_id, $token) {
     // Poll until the operation is finished
     do {
         // Wait for a brief moment before polling again
-        sleep(1);
+        sleep(2);
 
         // Make the API call to check operation status
         $response = wp_remote_get($url, array(
