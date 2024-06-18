@@ -8,10 +8,12 @@ require_once 'encryption.php';
  */
 
 // API Key - Replace 'YOUR_API_KEY' with your actual API key
-define( 'API_KEY', 'YmlOcUkyb3lxZ2V0ejFob01wdmJ4SVVHZURWRjdYVlpFVHJCdTFWSFVzNTZvdlhaY2MzZVVkZkpPbXUyZkNiWDo6EUN3M7Sq0SshTUFuyc7v1g==' );
+define('API_KEY', get_option('wordbee_api_key'));
+define('ACCOUNT_ID', get_option('wordbee_username'));
 
 
-define('ACCOUNT_ID' , 'transladiem');
+
+
 
 // Authentication endpoint URL
 define( 'AUTH_ENDPOINT', 'https://td.eu.wordbee-translator.com/api/auth/token' );
@@ -22,10 +24,10 @@ define( 'LIST_ENDPOINT', 'https://td.eu.wordbee-translator.com/api/jobs/list' );
 
 // Function to obtain API token
 function get_api_token() {
-    $key = decrypt_token(API_KEY);
+
     $body = json_encode( array(
         'accountid' => ACCOUNT_ID,
-        'key'       => $key
+        'key'       => API_KEY
     ) );
 
     // Make a request to the authentication endpoint with API key
@@ -36,18 +38,17 @@ function get_api_token() {
 
     if ( is_wp_error( $response ) ) {
         error_log( 'Authentication call failed: ' . $response->get_error_message() );
+        increment_api_call(false); // Increment error call
         return false;
     }
 
     $body = wp_remote_retrieve_body( $response );
     $data = json_decode( $body, true );
 
-    // if ( ! is_array( $data ) || ! isset( $data['token'] ) ) {
-    //     error_log( 'Failed to decode API token from response: ' . $body );
-    //     return false;
-    // }
     
-    error_log( 'sending token' . $data);
+    // Successful API call, increment success call
+    increment_api_call(true);
+
     return $data;
 }
 
@@ -76,4 +77,12 @@ function get_cached_api_token() {
     error_log( 'token is present' . $token );
 
     return $token;
+}
+
+//function to use wherever token is needed
+function get_auth_token() {
+    $token =  get_cached_api_token();
+    $key = decrypt_token(API_KEY);
+    error_log('Api key is .' . $key);
+    return decrypt_token($token);
 }
